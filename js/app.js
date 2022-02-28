@@ -33,7 +33,73 @@ const displayResult = phones => {
 }
 
 // Get More Detisl Form Api
-const moreDetails = (slug) => {
-  const detailsUrl = `https://openapi.programming-hero.com/api/phone/${slug}`;
-  console.log(detailsUrl)
+const moreDetails = async slug => {
+  const detailsApUrl = `https://openapi.programming-hero.com/api/phone/${slug}`;
+  // console.log(detailsApUrl)
+  const response = await fetch(detailsApUrl);
+  const data = await response.json();
+  displayMoreDetails(data.data);
+}
+
+// Display More Detisl in Frontend;
+const displayMoreDetails = phone => {
+  // All Sensor
+  const sensors = phone.mainFeatures.sensors;
+  const sensor = sensors.map(item => {
+    return item
+  })
+
+  // Other Feature
+  const { WLAN, Bluetooth, GPS, NFC, USB } = phone.others;
+
+  // console.log(sensor);
+  const detailsContainer = document.getElementById('more-details');
+  detailsContainer.textContent = '';
+  const detailContetDiv = document.createElement('div');
+  detailContetDiv.classList.add('col-8', 'offset-2');
+
+  detailContetDiv.innerHTML = `
+    <table class="table border">
+      <thead>
+        <h4 class="text-center mt-5">Phone Spacification</h4>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Model Name</td>
+          <td>${phone.name}</td>
+        </tr>
+        <tr>
+          <td>Release Date</td>
+          <td>${phone.releaseDate ? phone.releaseDate : 'No Relase Date Found.'}</td>
+        </tr>
+        <tr>
+          <td>Storage</td>
+          <td>${phone.mainFeatures.storage}</td>
+        </tr>
+
+        <tr>
+          <td>Memory</td>
+          <td>${phone.mainFeatures.memory}GB</td>
+        </tr>
+        <tr>
+          <td>Display</td>
+          <td>${phone.mainFeatures.displaySize}</td>
+        </tr>
+
+        <tr>
+          <td>Processor</td>
+          <td>${phone.mainFeatures.chipSet}</td>
+        </tr>
+        <tr>
+          <td>Sensors</td>
+          <td>${sensor}</td>
+        </tr>
+        <tr>
+          <td>Others Feature</td>
+          <td>${WLAN}, ${Bluetooth}, ${GPS}, ${NFC}, ${USB}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+  detailsContainer.appendChild(detailContetDiv)
 }
