@@ -5,12 +5,13 @@ const getResult = () => {
   fetch(apiUrl)
     .then(response => response.json())
     .then(data => displayResult(data.data));
-  // console.log(apiUrl)
 }
 
 const displayResult = phones => {
-  phones.forEach(phone => {
-    console.log(phone)
+  document.getElementById('result-container').textContent = '';
+  let total = phones.slice(0, 20);
+  total.forEach(phone => {
+    // console.log(phone)
     const displayContainer = document.getElementById('result-container');
     const cardContetDiv = document.createElement('div');
     cardContetDiv.classList.add('col-md-3')
