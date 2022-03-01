@@ -23,11 +23,13 @@ const displayResult = phones => {
   } else {
     document.getElementById('result-container').textContent = '';
     document.getElementById('more-details').textContent = '';
+
+    // Display 20 phone in Frontend.
     let total = phones.slice(0, 20);
     total.forEach(phone => {
       const displayContainer = document.getElementById('result-container');
       const cardContetDiv = document.createElement('div');
-      cardContetDiv.classList.add('col-md-3')
+      cardContetDiv.classList.add('col-md-4')
       cardContetDiv.innerHTML = `
       <div class="card p-3">
         <img src="${phone.image}" class="card-img-top w-50 mx-auto" alt="...">
@@ -64,11 +66,11 @@ const displayMoreDetails = phone => {
     others = Object.values(othersInfo);
   }
 
-  // console.log(sensor);
   const detailsContainer = document.getElementById('more-details');
   detailsContainer.textContent = '';
+
   const detailContetDiv = document.createElement('div');
-  detailContetDiv.classList.add('col-8', 'offset-2');
+  detailContetDiv.classList.add('col-8', 'offset-2', 'table-responsive');
 
   detailContetDiv.innerHTML = `
     <table class="table border">
@@ -78,7 +80,7 @@ const displayMoreDetails = phone => {
       <tbody>
         <tr>
           <td>Picture</td>
-          <td class="text-center"><img src="${phone.image}" alt="picute"></td>
+          <td class="text-center"><img src="${phone.image}" alt="picture"></td>
         </tr>
         <tr>
           <td>Model Name</td>
