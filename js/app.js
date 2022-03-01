@@ -12,6 +12,8 @@ const getResult = () => {
 // Display Search Result In Frontend.
 const displayResult = phones => {
   if (phones.length <= 0) {
+    document.getElementById('result-container').textContent = '';
+    document.getElementById('more-details').textContent = '';
     const messContainer = document.getElementById("error-message");
     const messDiv = document.createElement('div');
     messDiv.setAttribute('role', 'alert');
@@ -23,7 +25,7 @@ const displayResult = phones => {
   } else {
     document.getElementById('result-container').textContent = '';
     document.getElementById('more-details').textContent = '';
-
+    document.getElementById("error-message").textContent = '';
     // Display 20 phone in Frontend.
     let total = phones.slice(0, 20);
     total.forEach(phone => {
