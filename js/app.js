@@ -12,13 +12,19 @@ const getResult = () => {
 // Display Search Result In Frontend.
 const displayResult = phones => {
   if (phones.length <= 0) {
-    console.log('Search Resualt Not Found.')
+    const messContainer = document.getElementById("error-message");
+    const messDiv = document.createElement('div');
+    messDiv.setAttribute('role', 'alert');
+    messDiv.classList.add('alert', 'alert-danger', 'mt-5')
+    messDiv.innerHTML = `
+    Search Resualt Not Found.
+    `;
+    messContainer.appendChild(messDiv);
   } else {
     document.getElementById('result-container').textContent = '';
     document.getElementById('more-details').textContent = '';
     let total = phones.slice(0, 20);
     total.forEach(phone => {
-      // console.log(phone)
       const displayContainer = document.getElementById('result-container');
       const cardContetDiv = document.createElement('div');
       cardContetDiv.classList.add('col-md-3')
@@ -70,6 +76,10 @@ const displayMoreDetails = phone => {
         <h4 class="text-center mt-5">Features & Spacification</h4>
       </thead>
       <tbody>
+        <tr>
+          <td>Picture</td>
+          <td class="text-center"><img src="${phone.image}" alt="picute"></td>
+        </tr>
         <tr>
           <td>Model Name</td>
           <td>${phone.name}</td>
