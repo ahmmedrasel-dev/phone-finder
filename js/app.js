@@ -11,14 +11,18 @@ const getResult = () => {
 
 // Display Search Result In Frontend.
 const displayResult = phones => {
-  document.getElementById('result-container').textContent = '';
-  let total = phones.slice(0, 20);
-  total.forEach(phone => {
-    // console.log(phone)
-    const displayContainer = document.getElementById('result-container');
-    const cardContetDiv = document.createElement('div');
-    cardContetDiv.classList.add('col-md-3')
-    cardContetDiv.innerHTML = `
+  if (phones.length <= 0) {
+    console.log('Search Resualt Not Found.')
+  } else {
+    document.getElementById('result-container').textContent = '';
+    document.getElementById('more-details').textContent = '';
+    let total = phones.slice(0, 20);
+    total.forEach(phone => {
+      // console.log(phone)
+      const displayContainer = document.getElementById('result-container');
+      const cardContetDiv = document.createElement('div');
+      cardContetDiv.classList.add('col-md-3')
+      cardContetDiv.innerHTML = `
       <div class="card p-3">
         <img src="${phone.image}" class="card-img-top w-50 mx-auto" alt="...">
         <div class="card-body text-center">
@@ -28,14 +32,15 @@ const displayResult = phones => {
         </div>
       </div>
     `;
-    displayContainer.appendChild(cardContetDiv)
-  })
+      displayContainer.appendChild(cardContetDiv)
+    })
+  }
 }
 
 // Get More Detisl Form Api
 const moreDetails = async slug => {
   const detailsApUrl = `https://openapi.programming-hero.com/api/phone/${slug}`;
-  // console.log(detailsApUrl)
+  console.log(detailsApUrl)
   const response = await fetch(detailsApUrl);
   const data = await response.json();
   displayMoreDetails(data.data);
@@ -45,12 +50,13 @@ const moreDetails = async slug => {
 const displayMoreDetails = phone => {
   // All Sensor
   const sensors = phone.mainFeatures.sensors;
-  const sensor = sensors.map(item => {
-    return item
-  })
 
-  // Other Feature
-  const { WLAN, Bluetooth, GPS, NFC, USB } = phone.others;
+  // All Others Features.
+  const othersInfo = phone.others;
+  let others = '';
+  if (othersInfo !== undefined) {
+    others = Object.values(othersInfo);
+  }
 
   // console.log(sensor);
   const detailsContainer = document.getElementById('more-details');
@@ -61,7 +67,7 @@ const displayMoreDetails = phone => {
   detailContetDiv.innerHTML = `
     <table class="table border">
       <thead>
-        <h4 class="text-center mt-5">Phone Spacification</h4>
+        <h4 class="text-center mt-5">Features & Spacification</h4>
       </thead>
       <tbody>
         <tr>
@@ -92,11 +98,11 @@ const displayMoreDetails = phone => {
         </tr>
         <tr>
           <td>Sensors</td>
-          <td>${sensor}</td>
+          <td>${sensors}</td>
         </tr>
         <tr>
           <td>Others Feature</td>
-          <td>${WLAN}, ${Bluetooth}, ${GPS}, ${NFC}, ${USB}</td>
+          <td>${others.length != 0 ? others : 'No others Features'}</td>
         </tr>
       </tbody>
     </table>
